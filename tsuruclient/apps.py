@@ -1,3 +1,4 @@
+import json
 import requests
 
 
@@ -28,4 +29,18 @@ class AppManager(object):
         Remove an app.
         """
         response = requests.delete("{0}/apps/{1}".format(self.target, appname))
+        return response.json
+
+    def create(self, name, framework):
+        """
+        Create an app.
+        """
+        data = {
+            "name": name,
+            "framework": framework,
+        }
+        response = requests.post(
+            "{0}/apps".format(self.target),
+            data=json.dumps(data)
+        )
         return response.json

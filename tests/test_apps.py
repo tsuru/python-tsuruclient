@@ -1,5 +1,6 @@
 from tsuruclient import client
 
+import json
 import mock
 import unittest
 
@@ -22,3 +23,13 @@ class AppsTestCase(unittest.TestCase):
         cl = client.Client("target")
         cl.apps.remove("appname")
         delete.assert_called_with("target/apps/appname")
+
+    @mock.patch("requests.post")
+    def test_create_app(self, post):
+        cl = client.Client("target")
+        data = {
+            "name": "appname",
+            "framework": "framework",
+        }
+        cl.apps.create(**data)
+        post.assert_called_with("target/apps", data=json.dumps(data))
