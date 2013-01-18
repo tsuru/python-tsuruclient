@@ -5,4 +5,4 @@ deps:
 	@pip install -r requirements.txt --use-mirrors
 
 test: deps clean
-	@nosetests -s .
+	@nosetests -s . && flake8 .
