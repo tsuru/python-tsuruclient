@@ -16,3 +16,9 @@ class AppsTestCase(unittest.TestCase):
         cl = client.Client("target")
         cl.apps.get("appname")
         get.assert_called_with("target/apps/appname")
+
+    @mock.patch("requests.delete")
+    def test_remove_app(self, delete):
+        cl = client.Client("target")
+        cl.apps.remove("appname")
+        delete.assert_called_with("target/apps/appname")
