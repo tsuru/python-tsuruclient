@@ -4,5 +4,5 @@ clean:
 deps:
 	@pip install -r requirements.txt --use-mirrors
 
-test:
+test: deps clean
 	@nosetests -s .
