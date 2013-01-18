@@ -3,9 +3,10 @@ from tsuruclient import __version__
 
 
 with open('requirements.txt') as reqs:
-    install_requires = [
-        line for line in reqs.read().split('\n') if (line and not line.startswith('--'))
-    ]
+    install_requires = []
+    for line in reqs.read().split('\n'):
+        if line and not line.startswith("--"):
+            install_requires.append(line)
 
 
 setup(

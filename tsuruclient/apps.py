@@ -22,4 +22,3 @@ class AppManager(object):
         """
         response = requests.get("{0}/apps/{1}".format(self.target, appname))
         return response.json
-

@@ -1,4 +1,4 @@
-from tsuruclient  import apps
+from tsuruclient import apps
 
 
 class Client(object):
