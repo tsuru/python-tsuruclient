@@ -15,3 +15,11 @@ class AppManager(object):
         """
         response = requests.get("{0}/apps".format(self.target))
         return response.json
+
+    def get(self, appname):
+        """
+        Get an app.
+        """
+        response = requests.get("{0}/apps/{1}".format(self.target, appname))
+        return response.json
+

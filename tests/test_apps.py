@@ -10,4 +10,9 @@ class AppsTestCase(unittest.TestCase):
         cl = client.Client("target")
         cl.apps.list()
         get.assert_called_with("target/apps")
-        self.assertEqual("target", cl.apps.target)
+
+    @mock.patch("requests.get")
+    def test_get_app(self, get):
+        cl = client.Client("target")
+        cl.apps.get("appname")
+        get.assert_called_with("target/apps/appname")
