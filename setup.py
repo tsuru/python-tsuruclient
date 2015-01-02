@@ -11,6 +11,7 @@ with open('requirements.txt') as reqs:
 
 setup(
     name="python-tsuruclient",
+    url="https://github.com/tsuru/python-tsuruclient",
     version=__version__,
     packages=find_packages(),
     description="Python bindings to tsuru REST API",
