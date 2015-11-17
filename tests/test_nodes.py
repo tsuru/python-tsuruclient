@@ -1,0 +1,37 @@
+from tsuruclient import client
+
+import json
+import unittest
+import httpretty
+
+
+class NodesTestCase(unittest.TestCase):
+    def setUp(self):
+        httpretty.enable()
+
+    def tearDown(self):
+        httpretty.disable()
+        httpretty.reset()
+
+    def test_create_node(self):
+        node_data = {
+            "Status": "ready",
+            "Metadata": {
+                "pool": "tsuru2",
+                "iaas": "ec2",
+                "LastSuccess": "2015-11-16T18:44:36-02:00",
+            },
+            "Address": "http://127.0.0.3:4243"
+        }
+        url = "http://target/docker/node?register=true"
+        httpretty.register_uri(
+            httpretty.POST,
+            url,
+            body=json.dumps(node_data),
+            status=200
+        )
+
+        cl = client.Client("http://target")
+        data = {"address": "127.0.0.3:4243", "pool": "tsuru2"}
+        result = cl.nodes.create(**data)
+        self.assertDictEqual(result, node_data)
