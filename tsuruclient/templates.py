@@ -1,7 +1,7 @@
 import requests
 
 
-class TemplateManager(object):
+class Manager(object):
     """
     Manage Iaas Template resources.
     """

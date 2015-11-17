@@ -2,7 +2,7 @@ import json
 import requests
 
 
-class AppManager(object):
+class Manager(object):
     """
     Manage App resources.
     """

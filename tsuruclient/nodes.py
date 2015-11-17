@@ -2,7 +2,7 @@ import json
 import requests
 
 
-class NodeManager(object):
+class Manager(object):
     """
     Manage Node resources.
     """
