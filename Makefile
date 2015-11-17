@@ -5,4 +5,6 @@ deps:
 	@pip install -r requirements.txt
 
 test: deps clean
-	@nosetests -s . && flake8 .
+	@coverage run -m unittest discover
+	@coverage report --omit="*/tests/*" --include="./*" -m
+	@flake8 .
