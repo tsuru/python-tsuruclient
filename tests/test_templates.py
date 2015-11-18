@@ -23,6 +23,7 @@ class TemplatesTestCase(unittest.TestCase):
             status=200
         )
 
-        cl = client.Client("http://target")
+        cl = client.Client("http://target", "token")
         result = cl.templates.list()
+
         self.assertListEqual(result, template_data)

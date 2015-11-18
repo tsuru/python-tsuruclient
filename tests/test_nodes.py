@@ -31,7 +31,7 @@ class NodesTestCase(unittest.TestCase):
             status=200
         )
 
-        cl = client.Client("http://target")
+        cl = client.Client("http://target", "abc123")
         data = {"address": "127.0.0.3:4243", "pool": "tsuru2"}
         result = cl.nodes.create(**data)
         self.assertDictEqual(result, node_data)

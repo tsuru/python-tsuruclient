@@ -1,17 +1,16 @@
 import requests
 
+from base import Manager as Base
 
-class Manager(object):
+
+class Manager(Base):
     """
     Manage Iaas Template resources.
     """
-
-    def __init__(self, target):
-        self.target = target
 
     def list(self):
         """
         List machine templates
         """
-        response = requests.get("{}/iaas/templates".format(self.target))
+        response = requests.get("{}/iaas/templates".format(self.target), headers=self.headers)
         return response.json()
