@@ -10,12 +10,12 @@ with open('requirements.txt') as reqs:
 
 
 setup(
-    name="python-tsuruclient",
+    name="tsuruclient",
     url="https://github.com/tsuru/python-tsuruclient",
     version=__version__,
     packages=find_packages(),
-    description="Python bindings to tsuru REST API",
-    author="timeredbull",
-    author_email="timeredbull@corp.globo.com",
+    description="Python client library for tsuru API",
+    author="tsuru",
+    author_email="tsuru@corp.globo.com",
     install_requires=install_requires
 )
