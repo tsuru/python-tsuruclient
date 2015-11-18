@@ -27,3 +27,4 @@ class TemplatesTestCase(unittest.TestCase):
         result = cl.templates.list()
 
         self.assertListEqual(result, template_data)
+        self.assertEqual("bearer token", httpretty.last_request().headers["authorization"])
