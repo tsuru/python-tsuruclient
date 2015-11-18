@@ -1,38 +1,78 @@
 from tsuruclient import client
 
 import json
-import mock
+import httpretty
 import unittest
 
 
 class AppsTestCase(unittest.TestCase):
     def setUp(self):
-        self.headers = {"authorization": "bearer abc123"}
+        httpretty.enable()
 
-    @mock.patch("requests.get")
-    def test_list_apps(self, get):
-        cl = client.Client("target", "abc123")
-        cl.apps.list()
-        get.assert_called_with("target/apps", headers=self.headers)
+    def tearDown(self):
+        httpretty.disable()
+        httpretty.reset()
 
-    @mock.patch("requests.get")
-    def test_get_app(self, get):
-        cl = client.Client("target", "abc123")
-        cl.apps.get("appname")
-        get.assert_called_with("target/apps/appname", headers=self.headers)
+    def test_list_apps(self):
+        apps_data = []
+        url = "http://target/apps"
+        httpretty.register_uri(
+            httpretty.GET,
+            url,
+            body=json.dumps(apps_data),
+            status=200
+        )
 
-    @mock.patch("requests.delete")
-    def test_remove_app(self, delete):
-        cl = client.Client("target", "abc123")
+        cl = client.Client("http://target", "abc123")
+        result = cl.apps.list()
+
+        self.assertListEqual([], result)
+        self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
+
+    def test_get_app(self):
+        app_data = {}
+        url = "http://target/apps/appname"
+        httpretty.register_uri(
+            httpretty.GET,
+            url,
+            body=json.dumps(app_data),
+            status=200
+        )
+
+        cl = client.Client("http://target", "abc123")
+        result = cl.apps.get("appname")
+
+        self.assertDictEqual({}, result)
+        self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
+
+    def test_remove_app(self):
+        url = "http://target/apps/appname"
+        httpretty.register_uri(
+            httpretty.DELETE,
+            url,
+            status=200
+        )
+
+        cl = client.Client("http://target", "abc123")
         cl.apps.remove("appname")
-        delete.assert_called_with("target/apps/appname", headers=self.headers)
 
-    @mock.patch("requests.post")
-    def test_create_app(self, post):
-        cl = client.Client("target", "abc123")
+        self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
+
+    def test_create_app(self):
+        app_data = {}
+        url = "http://target/apps"
+        httpretty.register_uri(
+            httpretty.POST,
+            url,
+            body=json.dumps(app_data),
+            status=200
+        )
+
+        cl = client.Client("http://target", "abc123")
         data = {
             "name": "appname",
             "framework": "framework",
         }
         cl.apps.create(**data)
-        post.assert_called_with("target/apps", data=json.dumps(data), headers=self.headers)
+
+        self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])

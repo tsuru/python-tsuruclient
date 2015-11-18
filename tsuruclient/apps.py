@@ -28,7 +28,7 @@ class Manager(Base):
         Remove an app.
         """
         response = requests.delete("{}/apps/{}".format(self.target, appname), headers=self.headers)
-        return response.json()
+        return response.text
 
     def create(self, name, framework):
         """
