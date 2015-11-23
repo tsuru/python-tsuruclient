@@ -40,8 +40,20 @@ class NodesTestCase(unittest.TestCase):
         self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
         self.assertEqual("false", httpretty.last_request().querystring["register"][0])
 
+        result = cl.nodes.create(register=False, **data)
+
+        self.assertDictEqual(result, node_data)
+        self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
+        self.assertEqual("false", httpretty.last_request().querystring["register"][0])
+
         result = cl.nodes.create(register=True, **data)
 
         self.assertDictEqual(result, node_data)
         self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
         self.assertEqual("true", httpretty.last_request().querystring["register"][0])
+
+        result = cl.nodes.create(register="invalid", **data)
+
+        self.assertDictEqual(result, node_data)
+        self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
+        self.assertEqual("false", httpretty.last_request().querystring["register"][0])
