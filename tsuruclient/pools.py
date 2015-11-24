@@ -17,6 +17,7 @@ class Manager(Base):
         response = requests.post(
             "{}/docker/containers/rebalance".format(self.target),
             data=json.dumps(data),
-            headers=self.headers
+            headers=self.headers,
+            stream=True
         )
-        return response.json()
+        return response
