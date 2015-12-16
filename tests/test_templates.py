@@ -28,3 +28,17 @@ class TemplatesTestCase(unittest.TestCase):
 
         self.assertListEqual(result, template_data)
         self.assertEqual("bearer token", httpretty.last_request().headers["authorization"])
+
+    def test_remove(self):
+        url = "http://target/iaas/templates/mytemplate"
+        httpretty.register_uri(
+            httpretty.DELETE,
+            url,
+            status=200
+        )
+
+        cl = client.Client("http://target", "token")
+        result = cl.templates.remove("mytemplate")
+
+        self.assertEqual(result.status_code, 200)
+        self.assertEqual("bearer token", httpretty.last_request().headers["authorization"])
