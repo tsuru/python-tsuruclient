@@ -42,3 +42,17 @@ class TemplatesTestCase(unittest.TestCase):
 
         self.assertEqual(result.status_code, 200)
         self.assertEqual("bearer token", httpretty.last_request().headers["authorization"])
+
+    def test_create(self):
+        url = "http://target/iaas/templates"
+        httpretty.register_uri(
+            httpretty.POST,
+            url,
+            status=201
+        )
+
+        cl = client.Client("http://target", "token")
+        result = cl.templates.create("mytemplate", "myiaas", key="value", another_key="val")
+
+        self.assertEqual(result.status_code, 201)
+        self.assertEqual("bearer token", httpretty.last_request().headers["authorization"])
