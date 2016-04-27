@@ -17,6 +17,7 @@ class Manager(Base):
         response = requests.post(
             "{}/docker/node?register={}".format(self.target, register),
             data=json.dumps(kwargs),
-            headers=self.headers
+            headers=self.headers,
+            stream=True
         )
-        return response.json()
+        return response

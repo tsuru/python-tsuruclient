@@ -36,24 +36,24 @@ class NodesTestCase(unittest.TestCase):
         data = {"address": "127.0.0.3:4243", "pool": "tsuru2"}
         result = cl.nodes.create(**data)
 
-        self.assertDictEqual(result, node_data)
+        self.assertDictEqual(result.json(), node_data)
         self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
         self.assertEqual("false", httpretty.last_request().querystring["register"][0])
 
         result = cl.nodes.create(register=False, **data)
 
-        self.assertDictEqual(result, node_data)
+        self.assertDictEqual(result.json(), node_data)
         self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
         self.assertEqual("false", httpretty.last_request().querystring["register"][0])
 
         result = cl.nodes.create(register=True, **data)
 
-        self.assertDictEqual(result, node_data)
+        self.assertDictEqual(result.json(), node_data)
         self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
         self.assertEqual("true", httpretty.last_request().querystring["register"][0])
 
         result = cl.nodes.create(register="invalid", **data)
 
-        self.assertDictEqual(result, node_data)
+        self.assertDictEqual(result.json(), node_data)
         self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
         self.assertEqual("false", httpretty.last_request().querystring["register"][0])
