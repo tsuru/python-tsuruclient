@@ -1,7 +1,7 @@
 import json
 import requests
 
-from base import Manager as Base
+from tsuruclient.base import Manager as Base
 
 
 class Manager(Base):

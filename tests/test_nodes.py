@@ -38,28 +38,28 @@ class NodesTestCase(unittest.TestCase):
 
         self.assertDictEqual(result.json(), node_data)
         self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
-        self.assertIn("register", httpretty.last_request().body)
-        self.assertIn("false", httpretty.last_request().body)
+        self.assertIn("register", httpretty.last_request().body.decode('utf-8'))
+        self.assertIn("false", httpretty.last_request().body.decode('utf-8'))
 
         result = cl.nodes.create(**data)
 
         self.assertDictEqual(result.json(), node_data)
         self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
-        self.assertIn("register", httpretty.last_request().body)
-        self.assertIn("false", httpretty.last_request().body)
+        self.assertIn("register", httpretty.last_request().body.decode('utf-8'))
+        self.assertIn("false", httpretty.last_request().body.decode('utf-8'))
 
         data = {"address": "127.0.0.3:4243", "pool": "tsuru2", "register": "true"}
         result = cl.nodes.create(**data)
 
         self.assertDictEqual(result.json(), node_data)
         self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
-        self.assertIn("register", httpretty.last_request().body)
-        self.assertIn("true", httpretty.last_request().body)
+        self.assertIn("register", httpretty.last_request().body.decode('utf-8'))
+        self.assertIn("true", httpretty.last_request().body.decode('utf-8'))
 
         data = {"address": "127.0.0.3:4243", "pool": "tsuru2", "register": "invalid"}
         result = cl.nodes.create(**data)
 
         self.assertDictEqual(result.json(), node_data)
         self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
-        self.assertIn("register", httpretty.last_request().body)
-        self.assertIn("invalid", httpretty.last_request().body)
+        self.assertIn("register", httpretty.last_request().body.decode('utf-8'))
+        self.assertIn("invalid", httpretty.last_request().body.decode('utf-8'))
