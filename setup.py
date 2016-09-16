@@ -13,7 +13,7 @@ setup(
     name="tsuruclient",
     url="https://github.com/tsuru/python-tsuruclient",
     version=__version__,
-    packages=find_packages(),
+    packages=find_packages(exclude=["tests.*", "tests"]),
     description="Python client library for tsuru API",
     author="tsuru",
     author_email="tsuru@corp.globo.com",
