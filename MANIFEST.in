@@ -1,3 +1,4 @@
 include requirements.txt
 include MANIFEST.in
 recursive-exclude tests *
+global-exclude *.swp
