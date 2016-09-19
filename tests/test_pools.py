@@ -25,6 +25,6 @@ class PoolsTestCase(unittest.TestCase):
         cl = client.Client("http://target", "abc123")
         cl.pools.rebalance("dev")
 
-        result = json.loads(httpretty.last_request().body)
+        result = json.loads(httpretty.last_request().body.decode('utf-8'))
         expected = {"metadataFilter": {"pool": "dev"}}
         self.assertDictEqual(expected, result)
