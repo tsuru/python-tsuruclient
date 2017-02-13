@@ -1,4 +1,4 @@
-from tsuruclient import apps, nodes, templates, pools
+from tsuruclient import apps, nodes, templates, pools, machines
 
 
 class Client(object):
@@ -7,3 +7,4 @@ class Client(object):
         self.nodes = nodes.Manager(target, token)
         self.templates = templates.Manager(target, token)
         self.pools = pools.Manager(target, token)
+        self.machines = machines.Manager(target, token)
