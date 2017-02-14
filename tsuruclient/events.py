@@ -11,7 +11,7 @@ class Manager(Base):
         """
         List events.
         """
-        return self.request("get", "/events", version=1.1, data=kwargs)
+        return self.request("get", "/events", version=1.1, params=kwargs)
 
     def list_kinds(self):
         """

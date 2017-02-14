@@ -22,8 +22,9 @@ class EventsTestCase(unittest.TestCase):
             url,
             status=200
         )
-        self.cl.events.list()
-        self.assertEqual("/1.1/events", httpretty.last_request().path)
+        self.cl.events.list(kindname="node.create")
+        self.assertEqual("/1.1/events?kindname=node.create",
+                         httpretty.last_request().path)
 
     def test_list_kinds(self):
         url = "http://target/1.1/events/kinds"
