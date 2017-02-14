@@ -37,14 +37,14 @@ class NodesTestCase(unittest.TestCase):
         data = {"address": "127.0.0.3:4243", "pool": "tsuru2", "register": "false"}
         result = self.cl.nodes.create(**data)
 
-        self.assertDictEqual(result, node_data)
+        self.assertListEqual(list(result), [node_data])
         self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
         self.assertIn("register", httpretty.last_request().body.decode('utf-8'))
         self.assertIn("false", httpretty.last_request().body.decode('utf-8'))
 
         result = self.cl.nodes.create(**data)
 
-        self.assertDictEqual(result, node_data)
+        self.assertListEqual(list(result), [node_data])
         self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
         self.assertIn("register", httpretty.last_request().body.decode('utf-8'))
         self.assertIn("false", httpretty.last_request().body.decode('utf-8'))
@@ -52,7 +52,7 @@ class NodesTestCase(unittest.TestCase):
         data = {"address": "127.0.0.3:4243", "pool": "tsuru2", "register": "true"}
         result = self.cl.nodes.create(**data)
 
-        self.assertDictEqual(result, node_data)
+        self.assertListEqual(list(result), [node_data])
         self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
         self.assertIn("register", httpretty.last_request().body.decode('utf-8'))
         self.assertIn("true", httpretty.last_request().body.decode('utf-8'))
@@ -60,7 +60,7 @@ class NodesTestCase(unittest.TestCase):
         data = {"address": "127.0.0.3:4243", "pool": "tsuru2", "register": "invalid"}
         result = self.cl.nodes.create(**data)
 
-        self.assertDictEqual(result, node_data)
+        self.assertListEqual(list(result), [node_data])
         self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
         self.assertIn("register", httpretty.last_request().body.decode('utf-8'))
         self.assertIn("invalid", httpretty.last_request().body.decode('utf-8'))
