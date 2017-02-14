@@ -1,4 +1,3 @@
-import requests
 
 from tsuruclient.base import Manager as Base
 
@@ -12,42 +11,24 @@ class Manager(Base):
         """
         Create a node.
         """
-        response = requests.post(
-            "{}/1.2/node".format(self.target),
-            data=kwargs,
-            headers=self.headers,
-            stream=True
-        )
-        return response
+        return self.request("post", "/node", version=1.2, stream=True,
+                            data=kwargs)
 
     def list(self):
         """
         List nodes.
         """
-        response = requests.get(
-            "{}/1.2/node".format(self.target),
-            headers=self.headers
-        )
-        return response.json()
+        return self.request("get", "/node", version=1.2)
 
     def remove(self, address, **kwargs):
         """
         Remove a node.
         """
-        response = requests.delete(
-            "{}/1.2/node/{}".format(self.target, address),
-            headers=self.headers,
-            params=kwargs
-        )
-        return response
+        return self.request("delete", "/node/{}".format(address),
+                            version=1.2, params=kwargs)
 
     def update(self, address, **kwargs):
         """
         Update a node.
         """
-        response = requests.put(
-            "{}/1.2/node".format(self.target),
-            headers=self.headers,
-            data=kwargs,
-        )
-        return response
+        return self.request("put", "/node", version=1.2, data=kwargs)

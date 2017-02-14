@@ -1,5 +1,4 @@
 import json
-import requests
 
 from tsuruclient.base import Manager as Base
 
@@ -13,22 +12,19 @@ class Manager(Base):
         """
         Get a list of all apps.
         """
-        response = requests.get("{}/apps".format(self.target), headers=self.headers)
-        return response.json()
+        return self.request("get", "/apps")
 
     def get(self, appname):
         """
         Get an app.
         """
-        response = requests.get("{}/apps/{}".format(self.target, appname), headers=self.headers)
-        return response.json()
+        return self.request("get", "/apps/{}".format(appname))
 
     def remove(self, appname):
         """
         Remove an app.
         """
-        response = requests.delete("{}/apps/{}".format(self.target, appname), headers=self.headers)
-        return response.text
+        return self.request("delete", "/apps/{}".format(appname))
 
     def create(self, name, framework):
         """
@@ -38,9 +34,4 @@ class Manager(Base):
             "name": name,
             "framework": framework,
         }
-        response = requests.post(
-            "{}/apps".format(self.target),
-            data=json.dumps(data),
-            headers=self.headers
-        )
-        return response.json()
+        return self.request("post", "/apps", data=json.dumps(data))

@@ -38,9 +38,8 @@ class TemplatesTestCase(unittest.TestCase):
         )
 
         cl = client.Client("http://target", "token")
-        result = cl.templates.remove("mytemplate")
+        cl.templates.remove("mytemplate")
 
-        self.assertEqual(result.status_code, 200)
         self.assertEqual("bearer token", httpretty.last_request().headers["authorization"])
 
     def test_create(self):
@@ -52,7 +51,6 @@ class TemplatesTestCase(unittest.TestCase):
         )
 
         cl = client.Client("http://target", "token")
-        result = cl.templates.create("mytemplate", "myiaas", key="value", another_key="val")
+        cl.templates.create("mytemplate", "myiaas", key="value", another_key="val")
 
-        self.assertEqual(result.status_code, 201)
         self.assertEqual("bearer token", httpretty.last_request().headers["authorization"])

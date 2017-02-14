@@ -1,4 +1,3 @@
-import requests
 
 from tsuruclient.base import Manager as Base
 
@@ -12,18 +11,10 @@ class Manager(Base):
         """
         List IaaS machines.
         """
-        response = requests.get(
-            "{}/iaas/machines".format(self.target),
-            headers=self.headers
-        )
-        return response.json()
+        return self.request("get", "/iaas/machines")
 
     def delete(self, machine_id):
         """
         Delete IaaS machine.
         """
-        response = requests.delete(
-            "{}/iaas/machines/{}".format(self.target, machine_id),
-            headers=self.headers
-        )
-        return response
+        return self.request("delete", "/iaas/machines/{}".format(machine_id))

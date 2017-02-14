@@ -1,5 +1,4 @@
 import json
-import requests
 
 from tsuruclient.base import Manager as Base
 
@@ -14,10 +13,5 @@ class Manager(Base):
         Rebalance a pool.
         """
         data = {"metadataFilter": {"pool": pool}}
-        response = requests.post(
-            "{}/docker/containers/rebalance".format(self.target),
-            data=json.dumps(data),
-            headers=self.headers,
-            stream=True
-        )
-        return response
+        return self.request("post", "/docker/containers/rebalance",
+                            data=json.dumps(data), stream=True)

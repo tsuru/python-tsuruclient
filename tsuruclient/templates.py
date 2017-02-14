@@ -1,4 +1,3 @@
-import requests
 import json
 
 from tsuruclient.base import Manager as Base
@@ -13,18 +12,13 @@ class Manager(Base):
         """
         List machine templates
         """
-        response = requests.get("{}/iaas/templates".format(self.target), headers=self.headers)
-        return response.json()
+        return self.request("get", "/iaas/templates")
 
     def remove(self, name):
         """
         Remove machine templates
         """
-        response = requests.delete(
-            "{}/iaas/templates/{}".format(self.target, name),
-            headers=self.headers
-        )
-        return response
+        return self.request("delete", "/iaas/templates/{}".format(name))
 
     def create(self, name, iaas, **kwargs):
         """
@@ -33,9 +27,4 @@ class Manager(Base):
         data = kwargs
         data["iaas"] = iaas
         data["name"] = name
-        response = requests.post(
-            "{}/iaas/templates".format(self.target),
-            data=json.dumps(data),
-            headers=self.headers
-        )
-        return response
+        return self.request("post", "/iaas/templates", data=json.dumps(data))
