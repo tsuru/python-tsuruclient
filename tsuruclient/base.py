@@ -2,6 +2,10 @@ import requests
 import json
 
 
+class TsuruAPIError(requests.exceptions.HTTPError):
+    pass
+
+
 class Manager(object):
     def __init__(self, target, token):
         self.target = target
@@ -36,7 +40,11 @@ class Manager(object):
         if handle_response is not None:
             return handle_response(response)
 
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as error:
+            raise TsuruAPIError("{}: {}".format(error, error.response.text))
+
         content_type = response.headers["content-type"]
 
         if content_type == "application/x-json-stream":

@@ -1,6 +1,5 @@
-from tsuruclient.base import Manager
+from tsuruclient.base import Manager, TsuruAPIError
 
-import requests
 import unittest
 import httpretty
 
@@ -21,10 +20,18 @@ class ManagerTestCase(unittest.TestCase):
         httpretty.register_uri(
             httpretty.POST,
             url,
-            status=404
+            status=400,
+            body="invalid request"
         )
-        self.assertRaises(requests.HTTPError,
-                          self.m.request, "post", "/missing")
+        s = ("400 Client Error: Bad Request for url: "
+             "http://target/missing: invalid request")
+        raised = False
+        try:
+            self.m.request("post", "/missing")
+        except TsuruAPIError as ex:
+            raised = True
+            self.assertEqual(s, ex.message)
+        self.assertEqual(True, raised)
 
     def test_versioned(self):
         url = "http://target/1.2/api"
