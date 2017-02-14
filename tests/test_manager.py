@@ -46,3 +46,27 @@ class ManagerTestCase(unittest.TestCase):
         self.m.request("post", "/api")
         self.assertEqual("bearer 123",
                          httpretty.last_request().headers["authorization"])
+
+    def test_handle_stream(self):
+        url = "http://target/api"
+        httpretty.register_uri(
+            httpretty.POST,
+            url,
+            body='{"a":1}\nabc\n{"a":3}',
+            status=200,
+            content_type='application/x-json-stream',
+        )
+        gen = self.m.request("post", "/api")
+        self.assertListEqual([{"a": 1}, "abc", {"a": 3}], list(gen))
+
+    def test_customized_handle_func(self):
+        def handle(r):
+            return r.status_code
+        url = "http://target/api"
+        httpretty.register_uri(
+            httpretty.POST,
+            url,
+            status=400,
+        )
+        response = self.m.request("post", "/api", handle_response=handle)
+        self.assertEqual(400, response)

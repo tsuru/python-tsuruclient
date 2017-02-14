@@ -31,7 +31,8 @@ class NodesTestCase(unittest.TestCase):
             httpretty.POST,
             url,
             body=json.dumps(node_data),
-            status=200
+            status=200,
+            content_type='application/x-json-stream',
         )
 
         data = {"address": "127.0.0.3:4243", "pool": "tsuru2", "register": "false"}

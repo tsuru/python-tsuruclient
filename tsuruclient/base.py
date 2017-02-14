@@ -11,26 +11,35 @@ class Manager(object):
     def headers(self):
         return {"authorization": "bearer {}".format(self.token)}
 
-    def json_parse(self, response):
+    def json(self, response):
         try:
             return response.json()
         except:
             return {}
 
-    def stream_parse(self, response):
+    def json_stream(self, response):
         for line in response.iter_lines():
+            try:
                 yield json.loads(line)
+            except:
+                yield line
 
-    def request(self, method, path, version=None, **kwargs):
+    def request(self, method, path, version=None,
+                handle_response=None, **kwargs):
         url = self.target
         if version is not None:
             url = "{}/{}".format(url, version)
         url = "{}{}".format(url, path)
         kwargs["headers"] = self.headers
         response = requests.request(method, url, **kwargs)
+
+        if handle_response is not None:
+            return handle_response(response)
+
         response.raise_for_status()
+        content_type = response.headers["content-type"]
 
-        if "stream" in kwargs:
-            return self.stream_parse(response)
+        if content_type == "application/x-json-stream":
+            return self.json_stream(response)
 
-        return self.json_parse(response)
+        return self.json(response)
