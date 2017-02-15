@@ -1,5 +1,5 @@
-from tsuruclient import apps, nodes, templates, pools
-from tsuruclient import machines, containers, events
+from tsuruclient import (apps, nodes, templates, pools,
+                         machines, containers, events, users)
 
 
 class Client(object):
@@ -11,3 +11,4 @@ class Client(object):
         self.machines = machines.Manager(target, token)
         self.containers = containers.Manager(target, token)
         self.events = events.Manager(target, token)
+        self.users = users.Manager(target, token)
