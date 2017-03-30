@@ -70,9 +70,15 @@ class AppsTestCase(unittest.TestCase):
 
         cl = client.Client("http://target", "abc123")
         data = {
-            "name": "appname",
-            "framework": "framework",
+            "name": "myapp",
+            "platform": "python",
+            "pool": "deadpool",
+            "tag": ["tag 1", "tag 2"],
         }
         cl.apps.create(**data)
 
         self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
+        self.assertEqual(data["name"], httpretty.last_request().parsed_body["name"][0])
+        self.assertEqual(data["platform"], httpretty.last_request().parsed_body["platform"][0])
+        self.assertEqual(data["pool"], httpretty.last_request().parsed_body["pool"][0])
+        self.assertEqual(data["tag"], httpretty.last_request().parsed_body["tag"])

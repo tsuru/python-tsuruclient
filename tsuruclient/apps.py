@@ -1,5 +1,3 @@
-import json
-
 from tsuruclient.base import Manager as Base
 
 
@@ -26,12 +24,8 @@ class Manager(Base):
         """
         return self.request("delete", "/apps/{}".format(appname))
 
-    def create(self, name, framework):
+    def create(self, **kwargs):
         """
         Create an app.
         """
-        data = {
-            "name": name,
-            "framework": framework,
-        }
-        return self.request("post", "/apps", data=json.dumps(data))
+        return self.request("post", "/apps", stream=True, data=kwargs)
