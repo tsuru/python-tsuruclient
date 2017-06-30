@@ -30,7 +30,7 @@ class ManagerTestCase(unittest.TestCase):
             self.m.request("post", "/missing")
         except TsuruAPIError as ex:
             raised = True
-            self.assertEqual(s, ex.message)
+            self.assertEqual(s, str(ex).strip())
         self.assertEqual(True, raised)
 
     def test_versioned(self):
@@ -59,7 +59,7 @@ class ManagerTestCase(unittest.TestCase):
         httpretty.register_uri(
             httpretty.POST,
             url,
-            body='{"a":1}\nabc\n{"a":3}',
+            body='{"a":1}\n"abc"\n{"a":3}',
             status=200,
             content_type='application/x-json-stream',
         )

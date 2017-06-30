@@ -29,6 +29,38 @@ class AppsTestCase(unittest.TestCase):
         self.assertListEqual([], result)
         self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
 
+    def test_list_apps_by_query_string(self):
+        apps_data = []
+        url = "http://target/apps"
+        httpretty.register_uri(
+            httpretty.GET,
+            url,
+            body=json.dumps(apps_data),
+            status=200
+        )
+
+        cl = client.Client("http://target", "abc123")
+        cl.apps.list(name="appname", pool="testpool")
+
+        self.assertEqual({'name': ['appname'], 'pool': ['testpool']}, httpretty.last_request().querystring)
+        self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
+
+    def test_list_apps_handle_no_content(self):
+        apps_data = []
+        url = "http://target/apps"
+        httpretty.register_uri(
+            httpretty.GET,
+            url,
+            body=json.dumps(apps_data),
+            status=204
+        )
+
+        cl = client.Client("http://target", "abc123")
+        response = cl.apps.list()
+
+        self.assertListEqual([], response)
+        self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
+
     def test_get_app(self):
         app_data = {}
         url = "http://target/apps/appname"

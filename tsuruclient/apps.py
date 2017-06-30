@@ -6,11 +6,15 @@ class Manager(Base):
     Manage App resources.
     """
 
-    def list(self):
+    def list(self, **kwargs):
         """
-        Get a list of all apps.
+        Get a list of apps by query string.
         """
-        return self.request("get", "/apps")
+        def handle(response):
+            if response.status_code == 204:
+                return []
+            return response.json()
+        return self.request("get", "/apps", handle_response=handle, params=kwargs)
 
     def get(self, appname):
         """
