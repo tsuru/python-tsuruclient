@@ -33,3 +33,9 @@ class Manager(Base):
         Create an app.
         """
         return self.request("post", "/apps", stream=True, data=kwargs)
+
+    def update(self, appname, **kwargs):
+        """
+        Update an app.
+        """
+        return self.request("put", "/apps/{}".format(appname), stream=True, data=kwargs)
