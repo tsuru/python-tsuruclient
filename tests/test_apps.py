@@ -114,3 +114,26 @@ class AppsTestCase(unittest.TestCase):
         self.assertEqual(data["platform"], httpretty.last_request().parsed_body["platform"][0])
         self.assertEqual(data["pool"], httpretty.last_request().parsed_body["pool"][0])
         self.assertEqual(data["tag"], httpretty.last_request().parsed_body["tag"])
+
+    def test_update_app(self):
+        app_data = {}
+        url = "http://target/apps/appname"
+        httpretty.register_uri(
+            httpretty.PUT,
+            url,
+            body=json.dumps(app_data),
+            status=200
+        )
+
+        cl = client.Client("http://target", "abc123")
+        data = {
+            "pool": "mypool",
+            "plan": "myplan",
+            "router": "myrouter"
+        }
+        cl.apps.update("appname", **data)
+
+        self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
+        self.assertEqual(data["pool"], httpretty.last_request().parsed_body["pool"][0])
+        self.assertEqual(data["plan"], httpretty.last_request().parsed_body["plan"][0])
+        self.assertEqual(data["router"], httpretty.last_request().parsed_body["router"][0])
