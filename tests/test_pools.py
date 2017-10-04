@@ -1,6 +1,5 @@
 from tsuruclient import client
 
-import json
 import unittest
 import httpretty
 
@@ -18,13 +17,13 @@ class PoolsTestCase(unittest.TestCase):
         httpretty.register_uri(
             httpretty.POST,
             url,
-            body=json.dumps("{}"),
+            body="",
             status=200
         )
 
         cl = client.Client("http://target", "abc123")
         cl.pools.rebalance("dev")
 
-        result = json.loads(httpretty.last_request().body.decode('utf-8'))
-        expected = {"metadataFilter": {"pool": "dev"}}
-        self.assertDictEqual(expected, result)
+        result = httpretty.last_request().body.decode('utf-8')
+        expected = "MetadataFilter.pool=dev"
+        self.assertEqual(expected, result)
