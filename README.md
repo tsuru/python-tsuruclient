@@ -19,7 +19,7 @@ $ pip install tsuruclient
 $ pip install -r test-requirements.txt
 ```
 
-## run the tests 
+## run the tests
 
 ```bash
 make test
@@ -27,3 +27,16 @@ make test
 
 ## commit, push etc
 ## send a pull request
+
+# Publishing a new version
+
+Create a `$HOME/.pypirc` file with the following contents:
+
+```
+[server-login]
+repository: https://upload.pypi.org/legacy/
+username: <pypi username>
+password: <pypi pasword>
+```
+
+Update `./tsuruclient/__init__.py` file with the new version and run `make dist`

@@ -1,3 +1,5 @@
+.PHONY: clean deps test dist
+
 clean:
 	@find . -name "*.pyc" -delete
 
