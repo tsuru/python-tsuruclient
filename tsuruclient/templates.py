@@ -1,5 +1,3 @@
-import json
-
 from tsuruclient.base import Manager as Base
 
 
@@ -25,6 +23,6 @@ class Manager(Base):
         Create machine templates
         """
         data = kwargs
-        data["iaas"] = iaas
-        data["name"] = name
-        return self.request("post", "/iaas/templates", data=json.dumps(data))
+        data["IaaSName"] = iaas
+        data["Name"] = name
+        return self.request("post", "/iaas/templates", data=data)

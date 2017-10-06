@@ -54,3 +54,7 @@ class TemplatesTestCase(unittest.TestCase):
         cl.templates.create("mytemplate", "myiaas", key="value", another_key="val")
 
         self.assertEqual("bearer token", httpretty.last_request().headers["authorization"])
+
+        result = httpretty.last_request().body.decode('utf-8')
+        expected = "another_key=val&IaaSName=myiaas&Name=mytemplate&key=value"
+        self.assertEqual(expected, result)
