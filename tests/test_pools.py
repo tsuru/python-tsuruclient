@@ -13,7 +13,7 @@ class PoolsTestCase(unittest.TestCase):
         httpretty.reset()
 
     def test_rebalance(self):
-        url = "http://target/docker/containers/rebalance"
+        url = "http://target/node/rebalance"
         httpretty.register_uri(
             httpretty.POST,
             url,

@@ -11,5 +11,5 @@ class Manager(Base):
         Rebalance a pool.
         """
         data = {"MetadataFilter.pool": pool}
-        return self.request("post", "/docker/containers/rebalance",
+        return self.request("post", "/node/rebalance",
                             data=data, stream=True)
