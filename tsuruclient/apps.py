@@ -39,3 +39,9 @@ class Manager(Base):
         Update an app.
         """
         return self.request("put", "/apps/{}".format(appname), stream=True, data=kwargs)
+
+    def restart(self, appname, **kwargs):
+        """
+        Restart an app.
+        """
+        return self.request("post", "/apps/{}/restart".format(appname), stream=True, data=kwargs)

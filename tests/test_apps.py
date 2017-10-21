@@ -137,3 +137,23 @@ class AppsTestCase(unittest.TestCase):
         self.assertEqual(data["pool"], httpretty.last_request().parsed_body["pool"][0])
         self.assertEqual(data["plan"], httpretty.last_request().parsed_body["plan"][0])
         self.assertEqual(data["router"], httpretty.last_request().parsed_body["router"][0])
+
+    def test_restart_app(self):
+        app_data = {}
+        url = "http://target/apps/myapp/restart"
+        httpretty.register_uri(
+            httpretty.POST,
+            url,
+            body=json.dumps(app_data),
+            status=200
+        )
+
+        cl = client.Client("http://target", "abc123")
+        data = {
+            "appname": "myapp",
+            "process": "myprocess"
+        }
+        cl.apps.restart(**data)
+
+        self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])
+        self.assertEqual(data["process"], httpretty.last_request().parsed_body["process"][0])
