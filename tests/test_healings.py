@@ -43,7 +43,8 @@ class HealingsTestCase(unittest.TestCase):
         httpretty.register_uri(
             httpretty.POST,
             url,
-            status=200
+            status=200,
+            forcing_headers={'X-Empty': 'True'}
         )
         self.cl.healings.update(**{"pool": "abc"})
         self.assertEqual("bearer abc123", httpretty.last_request().headers["authorization"])

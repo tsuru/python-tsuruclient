@@ -45,9 +45,7 @@ class Manager(object):
         except requests.exceptions.HTTPError as error:
             raise TsuruAPIError("{}: {}".format(error, error.response.text))
 
-        content_type = response.headers["content-type"]
-
-        if content_type == "application/x-json-stream":
+        if response.headers.get('content-type') == "application/x-json-stream":
             return self.json_stream(response)
 
         return self.json(response)
