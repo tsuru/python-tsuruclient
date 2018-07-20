@@ -1,6 +1,6 @@
 from tsuruclient import (apps, nodes, templates, pools,
                          machines, containers, events, users,
-                         healings, plans)
+                         healings, plans, deploys)
 
 
 class Client(object):
@@ -15,3 +15,4 @@ class Client(object):
         self.users = users.Manager(target, token)
         self.healings = healings.Manager(target, token)
         self.plans = plans.Manager(target, token)
+        self.deploys = deploys.Manager(target, token)
